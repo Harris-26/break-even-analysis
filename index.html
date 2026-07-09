@@ -25,6 +25,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .card-title .badge{font-size:11px;font-weight:400;color:var(--text2);margin-left:auto}
 
 .market-toggle{display:flex;gap:10px;border-radius:10px;padding:2px}
+.direction-toggle{display:flex;gap:10px;margin-top:10px;padding-top:12px;border-top:1px solid #e8e8e8}
+.dir-btn{flex:1;padding:9px;font-size:14px;font-weight:600;border:2px solid var(--border);border-radius:8px;background:var(--card);color:var(--text2);text-align:center;cursor:pointer;transition:all 0.15s}
+.dir-btn:active{transform:scale(0.97)}
+.dir-btn.active{border-color:var(--primary);color:var(--primary);background:var(--primary-light)}
 .mkt-btn{flex:1;padding:11px;font-size:15px;font-weight:600;border:2px solid var(--border);border-radius:8px;background:var(--card);color:var(--text2);text-align:center;cursor:pointer;transition:all 0.15s}
 .mkt-btn:active{transform:scale(0.97)}
 .mkt-btn.active{border-color:var(--primary);color:var(--primary);background:var(--primary-light);box-shadow:0 0 0 1px var(--primary-light)}
@@ -118,6 +122,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 
 <div class="card">
   <div class="card-title">✏️ 参数输入</div>
+  <div class="direction-toggle">
+    <div class="dir-btn active" id="dirLong" onclick="setDirection('long')">📈 做多</div>
+    <div class="dir-btn" id="dirShort" onclick="setDirection('short')">📉 做空</div>
+  </div>
   <div class="input-group">
     <label>当前股价</label>
     <div class="input-row">
@@ -279,6 +287,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 
 <script>
 var market = "us";
+var direction = "long";
 
 function saveFees() {
   var d = {
@@ -328,6 +337,14 @@ function setMarketNoSave(m) {
   document.getElementById("priceUnit").textContent = m==="us"?"$":"¥";
 }
 
+
+function setDirection(dir) {
+  direction = dir;
+  document.getElementById("dirLong").className = "dir-btn" + (dir==="long"?" active":"");
+  document.getElementById("dirShort").className = "dir-btn" + (dir==="short"?" active":"");
+  calc();
+}
+
 function setMarket(m) {
   setMarketNoSave(m);
   autoDefaultFees();
@@ -374,17 +391,21 @@ function calc() {
 
   document.getElementById("costDisplay").textContent = sym + (p*sh-total).toFixed(2);
   document.getElementById("totalFee").textContent = sym + total.toFixed(3);
-  document.getElementById("tpPrice").textContent = sym + (p*(1+tp/100)).toFixed(2);
-  document.getElementById("tpLabel").textContent = sym + (p*(1+tp/100)).toFixed(2);
-  document.getElementById("slPrice").textContent = sym + (p*(1-sl/100)).toFixed(2);
-  document.getElementById("slLabel").textContent = sym + (p*(1-sl/100)).toFixed(2);
+  document.getElementById("tpPrice").textContent = sym + tpPrice.toFixed(2);
+    var tpPrice = direction==="short" ? p*(1-tp/100) : p*(1+tp/100);
+  var slPrice = direction==="short" ? p*(1+sl/100) : p*(1-sl/100);
+  document.getElementById("tpLabel").textContent = sym + tpPrice.toFixed(2);
+  document.getElementById("slPrice").textContent = sym + slPrice.toFixed(2);
+  document.getElementById("slLabel").textContent = sym + slPrice.toFixed(2);
   document.getElementById("grossWin").textContent = sym + gw.toFixed(2);
   document.getElementById("grossLoss").textContent = "-" + sym + gl.toFixed(2);
   document.getElementById("netWin").textContent = sym + Math.max(nw,0).toFixed(2);
   document.getElementById("netLoss").textContent = "-" + sym + nl.toFixed(2);
   document.getElementById("totalFeeResult").textContent = sym + total.toFixed(3);
   document.getElementById("ratioDisplay").textContent = r.toFixed(2);
-  updateFeeShort(total, sym);
+  updateFeeShort(total, sym);  // Update direction-based labels
+  document.querySelector(".tp-group label").textContent = "止盈比例 " + (direction==="short"?"▼":"▲");
+  document.querySelector(".sl-group label").textContent = "止损比例 " + (direction==="short"?"▲":"▼");
 
   var wEl = document.getElementById("wrDisplay");
   wEl.className = "mv";
