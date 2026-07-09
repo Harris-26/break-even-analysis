@@ -15,15 +15,12 @@ if("serviceWorker" in navigator) {
 :root{--primary:#1E3A5F;--primary-light:#e8f0fe;--green:#0B8043;--red:#D32F2F;--orange:#F39C12;--bg:#f0f2f5;--card:#fff;--border:#d0d5dd;--text:#333;--text2:#888;--radius:12px}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);padding:16px;padding-bottom:60px;-webkit-font-smoothing:antialiased}
 .container{max-width:500px;margin:0 auto}
-
 .header{text-align:center;margin:8px 0 16px}
 .header h1{font-size:22px;font-weight:700;color:var(--primary);letter-spacing:0.5px}
 .header p{font-size:13px;color:var(--text2);margin-top:4px}
-
 .card{background:var(--card);border-radius:var(--radius);padding:16px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,0.08)}
 .card-title{font-size:14px;font-weight:600;color:var(--primary);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #e8e8e8;display:flex;align-items:center;gap:6px}
 .card-title .badge{font-size:11px;font-weight:400;color:var(--text2);margin-left:auto}
-
 .market-toggle{display:flex;gap:10px;border-radius:10px;padding:2px}
 .direction-toggle{display:flex;gap:10px;margin-top:10px;padding-top:12px;border-top:1px solid #e8e8e8}
 .dir-btn{flex:1;padding:9px;font-size:14px;font-weight:600;border:2px solid var(--border);border-radius:8px;background:var(--card);color:var(--text2);text-align:center;cursor:pointer;transition:all 0.15s}
@@ -32,7 +29,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .mkt-btn{flex:1;padding:11px;font-size:15px;font-weight:600;border:2px solid var(--border);border-radius:8px;background:var(--card);color:var(--text2);text-align:center;cursor:pointer;transition:all 0.15s}
 .mkt-btn:active{transform:scale(0.97)}
 .mkt-btn.active{border-color:var(--primary);color:var(--primary);background:var(--primary-light);box-shadow:0 0 0 1px var(--primary-light)}
-
 .input-group{margin-bottom:12px}
 .input-group:last-child{margin-bottom:0}
 .input-group label{display:block;font-size:13px;font-weight:500;color:#555;margin-bottom:5px}
@@ -40,8 +36,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .input-row input{flex:1;font-size:16px;padding:10px 12px;border:2px solid var(--border);border-radius:8px;outline:none;background:var(--card);-webkit-appearance:none;transition:border-color 0.15s}
 .input-row input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(30,58,95,0.1)}
 .input-row .unit{font-size:13px;color:var(--text2);min-width:22px;font-weight:500}
-
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tp-hint{font-size:11px;color:var(--text2);margin-top:4px}
+.sl-hint{font-size:11px;color:var(--text2);margin-top:4px}
 .fee-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .fee-item{display:flex;flex-direction:column;padding:8px;border-radius:6px;background:#f8f9fc}
 .fee-item .fn{font-size:11px;color:#888;margin-bottom:3px}
@@ -51,20 +48,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .fee-total{text-align:center;padding:10px;background:var(--primary-light);border-radius:8px;margin:10px 0 0;font-size:14px}
 .fee-total .fl{color:#666}
 .fee-total .fv{font-weight:700;color:var(--primary);font-size:17px}
-
 .hidden{display:none}
-
 .reset-row{display:flex;gap:8px;margin-top:10px}
 .reset-btn{flex:1;padding:12px;font-size:14px;font-weight:600;border:none;border-radius:8px;text-align:center;cursor:pointer;background:#f0f0f0;color:#666;transition:background 0.15s}
 .reset-btn:active{background:#e0e0e0}
-
 .results-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .result-item{background:#f8f9fc;border-radius:8px;padding:10px}
 .result-item .rl{font-size:11px;color:var(--text2);margin-bottom:3px}
 .result-item .rv{font-size:17px;font-weight:700;color:var(--primary)}
 .result-item .rv.green{color:var(--green)}
 .result-item .rv.red{color:var(--red)}
-
 .key-metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
 .metric-box{text-align:center;padding:14px 10px;background:var(--primary-light);border-radius:10px}
 .metric-box .ml{font-size:11px;color:#888;display:block;margin-bottom:4px}
@@ -72,7 +65,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .metric-box .mv.green{color:var(--green)}
 .metric-box .mv.red{color:var(--red)}
 .metric-box .mv.orange{color:var(--orange)}
-
 .scenario-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
 .scenario-table th{background:var(--primary);color:#fff;padding:9px 4px;text-align:center;font-weight:500;font-size:11px;letter-spacing:0.3px}
 .scenario-table th:first-child{border-radius:6px 0 0 0}
@@ -86,13 +78,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .r-avg{color:var(--orange);font-weight:600}
 .r-poor{color:#E67E22;font-weight:600}
 .r-hard{color:var(--red);font-weight:600}
-
 .fee-header{cursor:pointer;user-select:none}
 .fee-header:hover{opacity:0.8}
 .fee-icon{font-size:10px;transition:transform 0.2s}
 
-.tp-hint{font-size:11px;color:var(--text2);margin-top:4px}
-.sl-hint{font-size:11px;color:var(--text2);margin-top:4px}</style>
+</style>
 </head>
 <body>
 <div class="container">
