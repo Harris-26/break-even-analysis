@@ -41,17 +41,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 .input-row input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(30,58,95,0.1)}
 .input-row .unit{font-size:13px;color:var(--text2);min-width:22px;font-weight:500}
 
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.input-group.tp-group label{color:var(--green);font-weight:600}
-.input-group.tp-group .input-row input{border-color:#27AE60}
-.input-group.tp-group .input-row input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(11,128,67,0.12)}
-.input-group.tp-group .input-row .unit{color:var(--green);font-weight:600}
-.tp-hint{font-size:11px;color:var(--green);margin-top:4px;font-weight:500}
-.input-group.sl-group label{color:var(--red);font-weight:600}
-.input-group.sl-group .input-row input{border-color:#E57373}
-.input-group.sl-group .input-row input:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(211,47,47,0.12)}
-.input-group.sl-group .input-row .unit{color:var(--red);font-weight:600}
-.sl-hint{font-size:11px;color:var(--red);margin-top:4px;font-weight:500}
-@media(max-width:380px){.grid-2{grid-template-columns:1fr}.input-group.tp-group,.input-group.sl-group{margin-bottom:12px}}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:380px){.grid-2{grid-template-columns:1fr}.input-group.tp-group,.input-group.sl-group{margin-bottom:12px}}
 
 
 .fee-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -122,7 +112,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
 
 <div class="card">
   <div class="card-title">✏️ 参数输入</div>
-  <div class="direction-toggle">
+  <div class="direction-toggle" id="dirToggle">
     <div class="dir-btn active" id="dirLong" onclick="setDirection('long')">📈 做多</div>
     <div class="dir-btn" id="dirShort" onclick="setDirection('short')">📉 做空</div>
   </div>
@@ -134,7 +124,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
     </div>
   </div>
   <div class="input-group tp-group">
-      <label>止盈比例 ▲</label>
+      <label>止盈比例</label>
       <div class="input-row">
         <input type="number" id="tp" value="5" step="0.1">
         <span class="unit">%</span>
@@ -142,7 +132,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
       <div class="tp-hint">目标价: <span id="tpLabel">$105.00</span></div>
     </div>
     <div class="input-group sl-group">
-      <label>止损比例 ▼</label>
+      <label>止损比例</label>
       <div class="input-row">
         <input type="number" id="sl" value="2" step="0.1">
         <span class="unit">%</span>
@@ -335,6 +325,10 @@ function setMarketNoSave(m) {
   document.getElementById("usFees").className = m==="us"?"":"hidden";
   document.getElementById("aFees").className = m==="a"?"":"hidden";
   document.getElementById("priceUnit").textContent = m==="us"?"$":"¥";
+  // A股不支持做空，自动切换到做多并隐藏按钮
+  var dirEl = document.getElementById("dirToggle");
+  if(m==="a"){ direction="long"; document.getElementById("dirLong").className="dir-btn active"; document.getElementById("dirShort").className="dir-btn"; if(dirEl) dirEl.style.display="none"; }
+  else { if(dirEl) dirEl.style.display=""; }
 }
 
 
@@ -404,8 +398,7 @@ function calc() {
   document.getElementById("totalFeeResult").textContent = sym + total.toFixed(3);
   document.getElementById("ratioDisplay").textContent = r.toFixed(2);
   updateFeeShort(total, sym);  // Update direction-based labels
-  document.querySelector(".tp-group label").textContent = "止盈比例 " + (direction==="short"?"▼":"▲");
-  document.querySelector(".sl-group label").textContent = "止损比例 " + (direction==="short"?"▲":"▼");
+
 
   var wEl = document.getElementById("wrDisplay");
   wEl.className = "mv";
