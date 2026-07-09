@@ -389,11 +389,11 @@ function calc() {
   var r = nl !== 0 ? nw / nl : 0;
   var wr = (nw + nl) !== 0 ? nl / (nw + nl) : 0;
 
-  document.getElementById("costDisplay").textContent = sym + (p*sh-total).toFixed(2);
+  document.getElementById("costDisplay").textContent = sym + (p*sh+total).toFixed(2);
   document.getElementById("totalFee").textContent = sym + total.toFixed(3);
-  document.getElementById("tpPrice").textContent = sym + tpPrice.toFixed(2);
-    var tpPrice = direction==="short" ? p*(1-tp/100) : p*(1+tp/100);
+  var tpPrice = direction==="short" ? p*(1-tp/100) : p*(1+tp/100);
   var slPrice = direction==="short" ? p*(1+sl/100) : p*(1-sl/100);
+  document.getElementById("tpPrice").textContent = sym + tpPrice.toFixed(2);
   document.getElementById("tpLabel").textContent = sym + tpPrice.toFixed(2);
   document.getElementById("slPrice").textContent = sym + slPrice.toFixed(2);
   document.getElementById("slLabel").textContent = sym + slPrice.toFixed(2);
