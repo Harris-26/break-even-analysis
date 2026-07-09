@@ -1,6 +1,6 @@
 ﻿const CACHE = "winrate-v1";
 const URLS = [
-  "/盈亏平衡分析.html",
+  "/index.html",
   "/manifest.json",
   "/icon-192.png",
   "/icon-512.png"
